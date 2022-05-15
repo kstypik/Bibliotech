@@ -2,7 +2,7 @@
 With these settings, tests run faster.
 """
 
-from .base import *  # noqa
+from .base import *  # pylint: disable=wildcard-import,unused-wildcard-import
 from .base import env
 
 # GENERAL

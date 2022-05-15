@@ -1,4 +1,5 @@
-from .base import *
+"""Local settings for development"""
+from .base import *  # pylint: disable=wildcard-import,unused-wildcard-import
 from .base import env
 
 DEBUG = True

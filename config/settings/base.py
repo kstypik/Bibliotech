@@ -1,3 +1,4 @@
+"""Base settings module made for inheritence by others"""
 from pathlib import Path
 
 import environ
