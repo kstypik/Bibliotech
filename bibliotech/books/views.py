@@ -1,8 +1,7 @@
 from rest_framework import generics
 
 from .models import Book, BookAuthor
-from .serializers import (BookAuthorSerializer, BookDetailSerializer,
-                          BookListSerializer)
+from .serializers import BookAuthorSerializer, BookDetailSerializer, BookListSerializer
 
 
 class BookListCreateView(generics.ListCreateAPIView):
