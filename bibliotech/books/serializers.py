@@ -19,4 +19,5 @@ class BookDetailSerializer(serializers.ModelSerializer):
             "isbn",
             "first_release",
             "description",
+            "publisher",
         ]
