@@ -1,7 +1,7 @@
 from rest_framework import generics
 
-from .models import Book
-from .serializers import BookDetailSerializer, BookListSerializer
+from .models import Book, BookAuthor
+from .serializers import BookAuthorSerializer, BookDetailSerializer, BookListSerializer
 
 
 class BookListCreateView(generics.ListCreateAPIView):
@@ -16,4 +16,10 @@ class BookListCreateView(generics.ListCreateAPIView):
 class BookDetailView(generics.RetrieveAPIView):
     queryset = Book.objects.all()
     serializer_class = BookDetailSerializer
+    lookup_field = "slug"
+
+
+class BookAuthorDetailView(generics.RetrieveAPIView):
+    queryset = BookAuthor.objects.all()
+    serializer_class = BookAuthorSerializer
     lookup_field = "slug"
