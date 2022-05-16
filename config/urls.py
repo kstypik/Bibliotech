@@ -8,4 +8,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     re_path("^auth/", include("djoser.urls")),
     re_path(r"^auth/", include("djoser.urls.jwt")),
+    path("books/", include("bibliotech.books.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
