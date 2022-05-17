@@ -1,4 +1,5 @@
 """Base settings module made for inheritence by others"""
+from datetime import timedelta
 from pathlib import Path
 
 import environ
@@ -149,6 +150,15 @@ REST_FRAMEWORK = {
 }
 
 
+DJOSER = {
+    "TOKEN_MODEL": None,
+}
+
+
 SIMPLE_JWT = {
-    "AUTH_HEADER_TYPES": ("JWT",),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    "AUTH_HEADER_TYPES": (
+        "Bearer",
+        "JWT",
+    ),
 }

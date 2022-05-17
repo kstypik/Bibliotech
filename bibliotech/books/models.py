@@ -1,8 +1,11 @@
 import os
 
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 from autoslug import AutoSlugField
+
+from bibliotech.users.models import User
 
 
 def book_covers_path(instance, filename):
@@ -58,3 +61,14 @@ class Publisher(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class BookRecord(models.Model):
+    class Status(models.TextChoices):
+        READ = "R", _("Read")
+        CURRENTLY_READING = "CR", _("Currently Reading")
+        WANT_TO_READ = "WR", _("Want to Read")
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    status = models.CharField(max_length=2, choices=Status.choices)
