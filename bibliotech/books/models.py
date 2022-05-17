@@ -1,13 +1,30 @@
+import os
+
 from django.db import models
 
 from autoslug import AutoSlugField
+
+
+def book_covers_path(instance, filename):
+    extension = os.path.splitext(filename)[1]
+    return f"book-covers/{instance.slug}{extension}"
+
+
+def author_photos_path(instance, filename):
+    extension = os.path.splitext(filename)[1]
+    return f"author-photos/{instance.slug}{extension}"
+
+
+def publisher_logos_path(instance, filename):
+    extension = os.path.splitext(filename)[1]
+    return f"publisher-logos/{instance.slug}{extension}"
 
 
 class Book(models.Model):
     title = models.CharField(max_length=200)
     slug = AutoSlugField(populate_from="title")
     isbn = models.CharField(max_length=13)
-    cover_image = models.ImageField(upload_to="book-covers/")
+    cover_image = models.ImageField(upload_to=book_covers_path)
     first_release = models.DateField()
     description = models.TextField()
     publisher = models.ForeignKey("Publisher", on_delete=models.CASCADE)
@@ -20,7 +37,7 @@ class Book(models.Model):
 class BookAuthor(models.Model):
     name = models.CharField(max_length=80)
     slug = AutoSlugField(populate_from="name")
-    photo = models.ImageField(upload_to="author-photos/")
+    photo = models.ImageField(upload_to=author_photos_path)
     date_of_birth = models.DateField(blank=True, null=True)
     date_of_death = models.DateField(blank=True, null=True)
     birthplace = models.CharField(max_length=100, blank=True)
@@ -36,7 +53,7 @@ class Publisher(models.Model):
     name = models.CharField(max_length=100)
     slug = AutoSlugField(populate_from="name")
     website = models.URLField(blank=True)
-    logo = models.ImageField(upload_to="publisher-logo/")
+    logo = models.ImageField(upload_to=publisher_logos_path)
     description = models.TextField()
 
     def __str__(self):
