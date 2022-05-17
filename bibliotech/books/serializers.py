@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Book, BookAuthor
+from .models import Book, BookAuthor, Publisher
 
 
 class BookListSerializer(serializers.ModelSerializer):
@@ -36,3 +36,9 @@ class BookAuthorSerializer(serializers.ModelSerializer):
             "website",
             "twitter_username",
         ]
+
+
+class PublisherSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Publisher
+        fields = ["slug", "name", "logo", "website", "description"]

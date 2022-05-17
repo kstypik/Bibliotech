@@ -16,4 +16,9 @@ urlpatterns = [
         views.BookAuthorDetailView.as_view(),
         name="book_author_detail",
     ),
+    path(
+        "publishers/<slug:slug>/",
+        views.PublisherDetailView.as_view(),
+        name="publisher_detail",
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
