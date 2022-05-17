@@ -1,7 +1,7 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 
-from .models import Book, BookAuthor, BookRecord, Publisher
+from .models import Book, BookAuthor, BookRecord, Genre, Publisher
 from .serializers import (
     BookAuthorSerializer,
     BookDetailSerializer,
@@ -9,6 +9,8 @@ from .serializers import (
     BookRatingSerializer,
     BookReadingStatusListSerializer,
     BookReadingStatusSerializer,
+    GenreListSerializer,
+    GenreSerializer,
     PublisherSerializer,
 )
 
@@ -69,3 +71,15 @@ class BookReadingStatusListView(generics.ListAPIView):
 class BookRatingRetrieveUpdateView(BookRecordRetrieveUpdateBaseView):
     serializer_class = BookRatingSerializer
     permission_classes = (IsAuthenticated,)
+
+
+class GenreRetrieveView(generics.RetrieveAPIView):
+    serializer_class = GenreSerializer
+    queryset = Genre.objects.all()
+    lookup_field = "slug"
+    lookup_url_kwarg = "slug"
+
+
+class GenreListView(generics.ListAPIView):
+    serializer_class = GenreListSerializer
+    queryset = Genre.objects.all()

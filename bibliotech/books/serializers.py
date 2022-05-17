@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Book, BookAuthor, BookRecord, Publisher
+from .models import Book, BookAuthor, BookRecord, Genre, Publisher
 
 
 class BookListSerializer(serializers.ModelSerializer):
@@ -20,6 +20,7 @@ class BookDetailSerializer(serializers.ModelSerializer):
             "first_release",
             "description",
             "publisher",
+            "genres",
         ]
 
 
@@ -66,3 +67,17 @@ class BookRatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = BookRecord
         fields = ["rating"]
+
+
+class GenreSerializer(serializers.ModelSerializer):
+    books = serializers.SlugRelatedField(many=True, read_only=True, slug_field="slug")
+
+    class Meta:
+        model = Genre
+        fields = ["slug", "name", "description", "books"]
+
+
+class GenreListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Genre
+        fields = ["slug", "name"]

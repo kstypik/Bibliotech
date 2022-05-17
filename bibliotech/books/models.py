@@ -33,6 +33,7 @@ class Book(models.Model):
     description = models.TextField()
     publisher = models.ForeignKey("Publisher", on_delete=models.CASCADE)
     authors = models.ManyToManyField("BookAuthor")
+    genres = models.ManyToManyField("Genre", related_name="books")
 
     def __str__(self):
         return self.title
@@ -48,6 +49,15 @@ class BookAuthor(models.Model):
     website = models.URLField(blank=True)
     twitter_username = models.CharField(max_length=15, blank=True)
     # TODO: wikipedia?
+
+    def __str__(self):
+        return self.name
+
+
+class Genre(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    slug = AutoSlugField(populate_from="name")
+    description = models.TextField(blank=True)
 
     def __str__(self):
         return self.name
