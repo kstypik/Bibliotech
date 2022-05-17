@@ -56,7 +56,13 @@ class BookReadingStatusListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BookRecord
-        fields = ["book", "user", "status"]
+        fields = ["book", "user", "status", "rating"]
 
     def get_status(self, obj):
         return obj.get_status_display()
+
+
+class BookRatingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BookRecord
+        fields = ["rating"]

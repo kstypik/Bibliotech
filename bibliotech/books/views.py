@@ -6,6 +6,7 @@ from .serializers import (
     BookAuthorSerializer,
     BookDetailSerializer,
     BookListSerializer,
+    BookRatingSerializer,
     BookReadingStatusListSerializer,
     BookReadingStatusSerializer,
     PublisherSerializer,
@@ -39,10 +40,7 @@ class PublisherDetailView(generics.RetrieveAPIView):
     lookup_field = "slug"
 
 
-class BookReadingStatusRetrieveUpdateView(generics.RetrieveUpdateAPIView):
-    serializer_class = BookReadingStatusSerializer
-    permission_classes = (IsAuthenticated,)
-
+class BookRecordRetrieveUpdateBaseView(generics.RetrieveUpdateAPIView):
     def get_queryset(self):
         return BookRecord.objects.filter(user=self.request.user)
 
@@ -56,8 +54,18 @@ class BookReadingStatusRetrieveUpdateView(generics.RetrieveUpdateAPIView):
         return obj
 
 
+class BookReadingStatusRetrieveUpdateView(BookRecordRetrieveUpdateBaseView):
+    serializer_class = BookReadingStatusSerializer
+    permission_classes = (IsAuthenticated,)
+
+
 class BookReadingStatusListView(generics.ListAPIView):
     serializer_class = BookReadingStatusListSerializer
 
     def get_queryset(self):
         return BookRecord.objects.filter(user=self.request.user)
+
+
+class BookRatingRetrieveUpdateView(BookRecordRetrieveUpdateBaseView):
+    serializer_class = BookRatingSerializer
+    permission_classes = (IsAuthenticated,)

@@ -11,4 +11,9 @@ urlpatterns = [
         views.BookReadingStatusRetrieveUpdateView.as_view(),
         name="book_status_retrieve_update",
     ),
+    path(
+        "<slug:book_slug>/rating/",
+        views.BookRatingRetrieveUpdateView.as_view(),
+        name="book_rating_retrieve_update",
+    ),
 ]
