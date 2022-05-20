@@ -55,7 +55,7 @@ class BookReadingStatusSerializer(serializers.ModelSerializer):
     def validate_pages_read(self, value):
         if self.instance.book.page_count is None:
             raise serializers.ValidationError(
-                _("You can't set read pages on books that don't specify them")
+                _("You can't set pages read on books that don't specify them")
             )
         if value > self.instance.book.page_count:
             raise serializers.ValidationError(
