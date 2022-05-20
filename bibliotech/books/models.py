@@ -31,9 +31,22 @@ class Book(models.Model):
     cover_image = models.ImageField(upload_to=book_covers_path)
     first_release = models.DateField()
     description = models.TextField()
+    page_count = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        validators=[MinValueValidator(1), MaxValueValidator(25_000)],
+    )
     publisher = models.ForeignKey("Publisher", on_delete=models.CASCADE)
     authors = models.ManyToManyField("BookAuthor")
     genres = models.ManyToManyField("Genre", related_name="books")
+
+    class Meta:
+        constraints = [
+            models.CheckConstraint(
+                name="%(app_label)s_%(class)s_page_count_range",
+                check=models.Q(page_count__range=(1, 25_000)),
+            ),
+        ]
 
     def __str__(self):
         return self.title
@@ -48,7 +61,6 @@ class BookAuthor(models.Model):
     birthplace = models.CharField(max_length=100, blank=True)
     website = models.URLField(blank=True)
     twitter_username = models.CharField(max_length=15, blank=True)
-    # TODO: wikipedia?
 
     def __str__(self):
         return self.name
@@ -88,11 +100,20 @@ class BookRecord(models.Model):
         blank=True,
         validators=[MinValueValidator(1), MaxValueValidator(5)],
     )
+    pages_read = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        validators=[MinValueValidator(1), MaxValueValidator(25_000)],
+    )
 
     class Meta:
         constraints = [
             models.CheckConstraint(
                 name="%(app_label)s_%(class)s_rating_range",
                 check=models.Q(rating__range=(1, 5)),
+            ),
+            models.CheckConstraint(
+                name="%(app_label)s_%(class)s_pages_read_range",
+                check=models.Q(pages_read__range=(1, 25_000)),
             ),
         ]

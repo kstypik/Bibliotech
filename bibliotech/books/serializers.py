@@ -1,3 +1,5 @@
+from django.utils.translation import gettext_lazy as _
+
 from rest_framework import serializers
 
 from .models import Book, BookAuthor, BookRecord, Genre, Publisher
@@ -48,7 +50,18 @@ class PublisherSerializer(serializers.ModelSerializer):
 class BookReadingStatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = BookRecord
-        fields = ["status"]
+        fields = ["status", "pages_read"]
+
+    def validate_pages_read(self, value):
+        if self.instance.book.page_count is None:
+            raise serializers.ValidationError(
+                _("You can't set read pages on books that don't specify them")
+            )
+        if value > self.instance.book.page_count:
+            raise serializers.ValidationError(
+                _("You can't read more pages than in the book")
+            )
+        return value
 
 
 class BookReadingStatusListSerializer(serializers.ModelSerializer):
@@ -57,7 +70,7 @@ class BookReadingStatusListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BookRecord
-        fields = ["book", "user", "status", "rating"]
+        fields = ["book", "user", "status", "pages_read", "rating"]
 
     def get_status(self, obj):
         return obj.get_status_display()
